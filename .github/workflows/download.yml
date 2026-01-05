@@ -46,8 +46,8 @@ jobs:
       - name: Run download script
         env:
           DOWNLOAD_URL: ${{ secrets.DOWNLOAD_URL }}
-          TOTAL_TIMES: 5
-          CONCURRENCY: 1
-          SLEEP_SECONDS: 1
+          TOTAL_TIMES: ${{ github.event.inputs.total_times }}
+          CONCURRENCY: ${{ github.event.inputs.concurrency }}
+          SLEEP_SECONDS: ${{ github.event.inputs.sleep_seconds }}
         run: |
           python download.py
