@@ -1,0 +1,40 @@
+name: Download Job
+
+# 触发方式
+on:
+  # 手动触发（强烈建议保留）
+  workflow_dispatch:
+
+  # 定时触发（可选，不要可以删）
+  # schedule:
+  #   - cron: "0 * * * *"
+
+jobs:
+  run-download:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1：拉取代码
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # Step 2：安装 Python
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+
+      # Step 3：安装依赖
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+
+      # Step 4：运行脚本
+      - name: Run download script
+        env:
+          DOWNLOAD_URL: ${{ secrets.DOWNLOAD_URL }}
+          TOTAL_TIMES: 5
+          CONCURRENCY: 1
+          SLEEP_SECONDS: 1
+        run: |
+          python download.py
